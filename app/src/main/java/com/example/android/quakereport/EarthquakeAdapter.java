@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -46,15 +48,49 @@ public class EarthquakeAdapter extends ArrayAdapter {
         // 获取当前位置的数据
         Earthquake earthquake = (Earthquake) getItem(position);
 
+        // 显式震级
         TextView textMagnitude = (TextView) listItemView.findViewById(R.id.text_magnitude);
         textMagnitude.setText(earthquake.getMagnitude());
 
+        // 显式位置
         TextView textLocation = (TextView) listItemView.findViewById(R.id.text_location);
         textLocation.setText(earthquake.getPlace());
 
+        // 显式日期和时间
+        TextView textDate = (TextView) listItemView.findViewById(R.id.text_date);
         TextView textTime = (TextView) listItemView.findViewById(R.id.text_time);
-        textTime.setText(earthquake.getTime());
+        // 格式化日期和时间
+        Date dateObject = new Date(earthquake.getTime());
+        String dateToDisplay = formatDate(dateObject);
+        String timeToDisplay = formatTime(dateObject);
+        // 设置
+        textDate.setText(dateToDisplay);
+        textTime.setText(timeToDisplay);
 
         return listItemView;
+    }
+
+    /**
+     * 格式化时间
+     * eg: 12:45 PM
+     * @param time 时间
+     * @return String
+     */
+    private String formatTime(Date time) {
+        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+        String timeToDisplay = timeFormat.format(time);
+        return timeToDisplay;
+    }
+
+    /**
+     * 格式化日期
+     * eg: Feb 23, 8102
+     * @param date 日期
+     * @return String
+     */
+    private String formatDate(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        String dateToDisplay = dateFormat.format(date);
+        return dateToDisplay;
     }
 }

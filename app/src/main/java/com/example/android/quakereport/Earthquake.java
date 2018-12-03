@@ -17,8 +17,9 @@ public class Earthquake {
 
     /**
      * 地震发生时间
+     * 毫秒
      */
-    private String time;
+    private long time;
 
     /**
      * 构造函数
@@ -26,7 +27,7 @@ public class Earthquake {
      * @param place 地点
      * @param time 时间
      */
-    public Earthquake(String magnitude, String place, String time) {
+    public Earthquake(String magnitude, String place, long time) {
         this.magnitude = magnitude;
         this.place = place;
         this.time = time;
@@ -50,9 +51,10 @@ public class Earthquake {
 
     /**
      * 获取地震发生时间
-     * @return String
+     * 毫秒
+     * @return long
      */
-    public String getTime() {
+    public long getTime() {
         return time;
     }
 }

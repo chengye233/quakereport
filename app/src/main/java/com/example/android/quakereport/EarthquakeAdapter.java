@@ -18,6 +18,11 @@ import java.util.List;
 public class EarthquakeAdapter extends ArrayAdapter {
 
     /**
+     * 为了拆分距离和位置
+     */
+    private static final String LOCATION_SEPARATOR = " of ";
+
+    /**
      * 构造函数
      * @param context context
      * @param resource 布局资源id
@@ -45,18 +50,33 @@ public class EarthquakeAdapter extends ArrayAdapter {
                     R.layout.earthquake_list_item, parent, false);
         }
 
-        // 获取当前位置的数据
+        // 获取当前的数据
         Earthquake earthquake = (Earthquake) getItem(position);
 
         // 显式震级
         TextView textMagnitude = (TextView) listItemView.findViewById(R.id.text_magnitude);
         textMagnitude.setText(earthquake.getMagnitude());
 
-        // 显式位置
+        // 显式地震发生的距离和位置
         TextView textLocation = (TextView) listItemView.findViewById(R.id.text_location);
-        textLocation.setText(earthquake.getPlace());
+        TextView textDistance = (TextView) listItemView.findViewById(R.id.text_distance);
+        // 拆分距离和位置
+        String distanceAndLocation = earthquake.getPlace();
+        String distanceToDisplay = null;
+        String locationToDisplay = null;
+        if (distanceAndLocation.contains(LOCATION_SEPARATOR)) {
+            String[] dl = distanceAndLocation.split(LOCATION_SEPARATOR);
+            distanceToDisplay = dl[0] +LOCATION_SEPARATOR;
+            locationToDisplay = dl[1];
+        } else {
+            distanceToDisplay = getContext().getString(R.string.near_the);
+            locationToDisplay = distanceAndLocation;
+        }
+        // 设置
+        textDistance.setText(distanceToDisplay);
+        textLocation.setText(locationToDisplay);
 
-        // 显式日期和时间
+        // 显式地震发生的日期和时间
         TextView textDate = (TextView) listItemView.findViewById(R.id.text_date);
         TextView textTime = (TextView) listItemView.findViewById(R.id.text_time);
         // 格式化日期和时间

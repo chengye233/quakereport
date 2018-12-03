@@ -14,6 +14,14 @@
         android:layout_weight="1"
         tools:text="7.2" />
 
+    <!-- 距离 -->
+    <TextView
+        android:id="@+id/text_distance"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        tools:text="74km NW of" />
+
     <!-- 位置 -->
     <TextView
         android:id="@+id/text_location"

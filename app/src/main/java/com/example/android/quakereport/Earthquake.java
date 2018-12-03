@@ -13,7 +13,7 @@ public class Earthquake {
     /**
      * 地震发生位置
      */
-    private String location;
+    private String place;
 
     /**
      * 地震发生时间
@@ -23,12 +23,12 @@ public class Earthquake {
     /**
      * 构造函数
      * @param magnitude 震级
-     * @param location 地点
+     * @param place 地点
      * @param time 时间
      */
-    public Earthquake(String magnitude, String location, String time) {
+    public Earthquake(String magnitude, String place, String time) {
         this.magnitude = magnitude;
-        this.location = location;
+        this.place = place;
         this.time = time;
     }
 
@@ -44,8 +44,8 @@ public class Earthquake {
      * 获取地震发生位置
      * @return String
      */
-    public String getLocation() {
-        return location;
+    public String getPlace() {
+        return place;
     }
 
     /**

@@ -63,7 +63,7 @@ public final class QueryUtils {
                 // 获取feature的properties属性
                 JSONObject properties = feature.getJSONObject("properties");
                 // 提取properties的mag属性
-                String mag = properties.getString("mag");
+                double mag = properties.getDouble("mag");
                 // 提取properties的place属性
                 String place = properties.getString("place");
                 // 提取properties的time属性

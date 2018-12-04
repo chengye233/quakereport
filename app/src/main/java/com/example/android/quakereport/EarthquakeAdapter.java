@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -55,7 +56,10 @@ public class EarthquakeAdapter extends ArrayAdapter {
 
         // 显式震级
         TextView textMagnitude = (TextView) listItemView.findViewById(R.id.text_magnitude);
-        textMagnitude.setText(earthquake.getMagnitude());
+        double magnitude = earthquake.getMagnitude();
+        String magnitudeToDisplay = formatMagnitude(magnitude);
+        // 设置
+        textMagnitude.setText(magnitudeToDisplay);
 
         // 显式地震发生的距离和位置
         TextView textLocation = (TextView) listItemView.findViewById(R.id.text_location);
@@ -88,6 +92,15 @@ public class EarthquakeAdapter extends ArrayAdapter {
         textTime.setText(timeToDisplay);
 
         return listItemView;
+    }
+
+    /**
+     * 格式化震级
+     * eg: 6.0
+     */
+    private String formatMagnitude(double magnitude) {
+        DecimalFormat magnitudeFormat = new DecimalFormat("0.0");
+        return magnitudeFormat.format(magnitude);
     }
 
     /**

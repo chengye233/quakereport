@@ -8,7 +8,7 @@ public class Earthquake {
     /**
      * 地震的震级
      */
-    private String magnitude;
+    private double magnitude;
 
     /**
      * 地震发生位置
@@ -27,7 +27,7 @@ public class Earthquake {
      * @param place 地点
      * @param time 时间
      */
-    public Earthquake(String magnitude, String place, long time) {
+    public Earthquake(double magnitude, String place, long time) {
         this.magnitude = magnitude;
         this.place = place;
         this.time = time;
@@ -35,9 +35,9 @@ public class Earthquake {
 
     /**
      * 获取震级
-     * @return String
+     * @return double
      */
-    public String getMagnitude() {
+    public double getMagnitude() {
         return magnitude;
     }
 

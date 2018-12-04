@@ -2,9 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
     android:orientation="horizontal"
-    android:padding="16dp">
+    android:paddingStart="16dp"
+    android:paddingLeft="16dp"
+    android:paddingEnd="16dp"
+    android:paddingRight="16dp">
 
     <!-- 震级 -->
     <TextView
@@ -19,43 +22,70 @@
         android:textSize="16sp"
         tools:text="8.9" />
 
-    <!-- 距离 -->
-    <TextView
-        android:id="@+id/text_distance"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_weight="1"
-        tools:text="74km NW of" />
-
-    <!-- 位置 -->
-    <TextView
-        android:id="@+id/text_location"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        tools:text="London" />
-
-    <!-- 日期和时间 -->
+    <!-- 距离和位置 -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_weight="1"
+        android:orientation="vertical">
+
+        <!-- 距离 -->
+        <TextView
+            android:id="@+id/text_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="1"
+            android:textAllCaps="true"
+            android:textColor="@color/textColorEarthquakeDetails"
+            android:textSize="12sp"
+            tools:text="30km S of" />
+
+        <!-- 位置 -->
+        <TextView
+            android:id="@+id/text_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/textColorEarthquakeLocation"
+            android:textSize="16sp"
+            tools:text="Long placeholder location that should wrap to more than 2 lines of text" />
+    </LinearLayout>
+
+
+    <!-- 日期和时间 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:orientation="vertical">
 
         <!-- 日期 -->
         <TextView
             android:id="@+id/text_date"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:text="Feb 2,2016" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:textColor="@color/textColorEarthquakeDetails"
+            android:textSize="12sp"
+            tools:text="Mar 6, 2010" />
 
         <!-- 时间 -->
         <TextView
             android:id="@+id/text_time"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:text="9:00 PM" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:textColor="@color/textColorEarthquakeDetails"
+            android:textSize="12sp"
+            tools:text="3:00 PM" />
     </LinearLayout>
 
 

@@ -9,16 +9,22 @@
     <!-- 震级 -->
     <TextView
         android:id="@+id/text_magnitude"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        tools:text="7.2" />
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/magnitude_circle"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        tools:text="8.9" />
 
     <!-- 距离 -->
     <TextView
         android:id="@+id/text_distance"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
         android:layout_weight="1"
         tools:text="74km NW of" />
 

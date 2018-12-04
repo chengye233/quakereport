@@ -22,15 +22,22 @@ public class Earthquake {
     private long time;
 
     /**
+     * USGS的地震信息的url
+     */
+    private String url;
+
+    /**
      * 构造函数
      * @param magnitude 震级
      * @param place 地点
      * @param time 时间
+     * @param url
      */
-    public Earthquake(double magnitude, String place, long time) {
+    public Earthquake(double magnitude, String place, long time, String url) {
         this.magnitude = magnitude;
         this.place = place;
         this.time = time;
+        this.url = url;
     }
 
     /**
@@ -56,5 +63,13 @@ public class Earthquake {
      */
     public long getTime() {
         return time;
+    }
+
+    /**
+     * USGS地震信息的url
+     * @return String
+     */
+    public String getUrl() {
+        return url;
     }
 }

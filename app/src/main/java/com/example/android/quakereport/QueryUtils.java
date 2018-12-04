@@ -67,8 +67,11 @@ public final class QueryUtils {
                 String place = properties.getString("place");
                 // 提取properties的time属性
                 long time = properties.getLong("time");
+                // 提取url
+                String url = properties.getString("url");
+
                 // 创建{@link Earthquake}对象
-                Earthquake earthquake = new Earthquake(mag, place, time);
+                Earthquake earthquake = new Earthquake(mag, place, time, url);
                 // 放入{@link List}earthquakes
                 earthquakes.add(earthquake);
             }

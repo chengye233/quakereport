@@ -15,11 +15,14 @@
  */
 package com.example.android.quakereport;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,11 +44,30 @@ public class EarthquakeActivity extends AppCompatActivity {
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
 
         // Create a new {@link EarthquakeAdapter} of earthquakes
-        EarthquakeAdapter adapter = new EarthquakeAdapter(
+        final EarthquakeAdapter earthquakeAdapter = new EarthquakeAdapter(
                 this, R.layout.earthquake_list_item, earthquakes);
 
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
-        earthquakeListView.setAdapter(adapter);
+        earthquakeListView.setAdapter(earthquakeAdapter);
+
+        // ListView设置监听器 点击发送intent 跳转浏览器
+        earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // 从Adapter获取当前Earthquake
+                Earthquake earthquake = (Earthquake) earthquakeAdapter.getItem(position);
+
+                // 将字符串 URL 转换为 URI 对象（以传递至 Intent 中 constructor)
+                Uri earthquakeUri = Uri.parse(earthquake.getUrl());
+
+                // 创建一个新的 Intent 以查看地震 URI
+                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, earthquakeUri);
+
+                // 发送 Intent 以启动新活动
+                startActivity(websiteIntent);
+            }
+        });
+
     }
 }

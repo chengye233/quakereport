@@ -17,6 +17,7 @@ package com.example.android.quakereport;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -32,14 +33,64 @@ public class EarthquakeActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = EarthquakeActivity.class.getName();
 
+    private static final String USGS_REQUEST_URL =
+            "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=earthquake&orderby=time&minmag=6&limit=10";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.earthquake_activity);
 
-        // 用{@link QueryUtils}获取数据
-        List<Earthquake> earthquakes = QueryUtils.extractEarthquakes();
+        // 后台线程获取数据
+        EarthquakeAsyncTask earthquakeAsyncTask = new EarthquakeAsyncTask();
+        earthquakeAsyncTask.execute(USGS_REQUEST_URL);
 
+    }
+
+    /**
+     * {@link AsyncTask} 用于在后台线程上执行网络请求，然后
+     * 使用响应中的第一个地震更新 UI。
+     */
+    private class EarthquakeAsyncTask extends AsyncTask<String, Void, List<Earthquake>> {
+
+        /**
+         * 此方法在后台线程上激活（调用），因此我们可以执行
+         * 诸如做出网络请求等长时间运行操作。
+         * <p>
+         * 因为不能从后台线程更新 UI，所以我们仅返回
+         * {@link List<Earthquake>} 对象作为结果。
+         */
+        protected List<Earthquake> doInBackground(String... urls) {
+            // 如果不存在任何 URL 或第一个 URL 为空，切勿执行请求。
+            if (urls.length < 1 || urls[0] == null) {
+                return null;
+            }
+
+            List<Earthquake> result = QueryUtils.fetchEarthquakeData(urls[0]);
+            return result;
+        }
+
+        /**
+         * 此方法是在完成后台工作后，在主 UI 线程上
+         * 激活的。
+         * <p>
+         * 可以在此方法内修改 UI。我们得到 {@link List<Earthquake>} 对象
+         * （该对象从 doInBackground() 方法返回），并更新屏幕上的视图。
+         */
+        protected void onPostExecute(List<Earthquake> result) {
+            // 如果不存在任何结果，则不执行任何操作。
+            if (result == null) {
+                return;
+            }
+
+            updateUi(result);
+        }
+    }
+
+    /**
+     * 更新布局
+     */
+    private void updateUi(List<Earthquake> earthquakes) {
         // Find a reference to the {@link ListView} in the layout
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
 
@@ -68,6 +119,5 @@ public class EarthquakeActivity extends AppCompatActivity {
                 startActivity(websiteIntent);
             }
         });
-
     }
 }

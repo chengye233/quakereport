@@ -27,6 +27,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,9 @@ public class EarthquakeActivity extends AppCompatActivity
      */
     private static final int EARTHQUAKE_LOADER_ID = 1;
 
+    // 空视图 在没有地震数据时显式
+    private TextView emptyStateTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +69,11 @@ public class EarthquakeActivity extends AppCompatActivity
         // Find a reference to the {@link ListView} in the layout
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
 
+        // 设置empty list
+        emptyStateTextView = (TextView) findViewById(R.id.empty);
+        earthquakeListView.setEmptyView(emptyStateTextView);
+
+        // 设置{@link Adapter}
         earthquakeAdapter = new EarthquakeAdapter(
                 this, R.layout.earthquake_list_item, new ArrayList<Earthquake>());
 
@@ -117,6 +126,9 @@ public class EarthquakeActivity extends AppCompatActivity
      */
     @Override
     public void onLoadFinished(Loader<List<Earthquake>> loader, List<Earthquake> earthquakes) {
+        // 设置空视图text
+        emptyStateTextView.setText(R.string.no_earthquakes);
+
         Log.v(LOG_TAG, "调用onLoadFinished");
 
 

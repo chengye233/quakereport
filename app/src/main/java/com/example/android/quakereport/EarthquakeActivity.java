@@ -26,6 +26,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -59,6 +60,9 @@ public class EarthquakeActivity extends AppCompatActivity
     // 空视图 在没有地震数据时显式
     private TextView emptyStateTextView;
 
+    // 显式进度
+    private ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +73,11 @@ public class EarthquakeActivity extends AppCompatActivity
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
 
         // 设置empty list
-        emptyStateTextView = (TextView) findViewById(R.id.empty);
+        emptyStateTextView = (TextView) findViewById(R.id.empty_view);
         earthquakeListView.setEmptyView(emptyStateTextView);
+
+        // 设置ProgressBar
+        progressBar = (ProgressBar) findViewById(R.id.loading_indicator);
 
         // 设置{@link Adapter}
         earthquakeAdapter = new EarthquakeAdapter(
@@ -125,6 +132,9 @@ public class EarthquakeActivity extends AppCompatActivity
     public void onLoadFinished(Loader<List<Earthquake>> loader, List<Earthquake> earthquakes) {
         // 设置空视图text
         emptyStateTextView.setText(R.string.no_earthquakes);
+
+        // 取消ProgressBar显式
+        progressBar.setVisibility(View.GONE);
 
         // 清除之前地震数据的适配器
         earthquakeAdapter.clear();

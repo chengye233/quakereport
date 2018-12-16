@@ -23,6 +23,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -103,6 +104,8 @@ public class EarthquakeActivity extends AppCompatActivity
      */
     @Override
     public Loader<List<Earthquake>> onCreateLoader(int id, Bundle args) {
+        Log.v(LOG_TAG, "调用onCreateLoader");
+
         // 为给定 URL 创建新 loader
         return new EarthquakeLoader(this, USGS_REQUEST_URL);
     }
@@ -114,6 +117,9 @@ public class EarthquakeActivity extends AppCompatActivity
      */
     @Override
     public void onLoadFinished(Loader<List<Earthquake>> loader, List<Earthquake> earthquakes) {
+        Log.v(LOG_TAG, "调用onLoadFinished");
+
+
         // 清除之前地震数据的适配器
         earthquakeAdapter.clear();
 
@@ -129,6 +135,9 @@ public class EarthquakeActivity extends AppCompatActivity
      */
     @Override
     public void onLoaderReset(Loader<List<Earthquake>> loader) {
+        Log.v(LOG_TAG, "调用onLoaderReset");
+
+
         earthquakeAdapter.clear();
     }
 

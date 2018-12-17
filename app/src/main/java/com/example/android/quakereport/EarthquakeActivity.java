@@ -17,8 +17,11 @@ package com.example.android.quakereport;
 
 import android.app.LoaderManager;
 import android.content.AsyncTaskLoader;
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -79,39 +82,57 @@ public class EarthquakeActivity extends AppCompatActivity
         // 设置ProgressBar
         progressBar = (ProgressBar) findViewById(R.id.loading_indicator);
 
-        // 设置{@link Adapter}
-        earthquakeAdapter = new EarthquakeAdapter(
-                this, R.layout.earthquake_list_item, new ArrayList<Earthquake>());
+        // 获得网络连接状况
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
 
-        // Set the adapter on the {@link ListView}
-        // so the list can be populated in the user interface
-        earthquakeListView.setAdapter(earthquakeAdapter);
+        // 连接时正常获取数据并设置Loader
+        if (isConnected) {
 
-        // ListView设置监听器 点击发送intent 跳转浏览器
-        earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // 从Adapter获取当前Earthquake
-                Earthquake earthquake = (Earthquake) earthquakeAdapter.getItem(position);
+            // 设置{@link Adapter}
+            earthquakeAdapter = new EarthquakeAdapter(
+                    this, R.layout.earthquake_list_item, new ArrayList<Earthquake>());
 
-                // 将字符串 URL 转换为 URI 对象（以传递至 Intent 中 constructor)
-                Uri earthquakeUri = Uri.parse(earthquake.getUrl());
+            // Set the adapter on the {@link ListView}
+            // so the list can be populated in the user interface
+            earthquakeListView.setAdapter(earthquakeAdapter);
 
-                // 创建一个新的 Intent 以查看地震 URI
-                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, earthquakeUri);
+            // ListView设置监听器 点击发送intent 跳转浏览器
+            earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    // 从Adapter获取当前Earthquake
+                    Earthquake earthquake = (Earthquake) earthquakeAdapter.getItem(position);
 
-                // 发送 Intent 以启动新活动
-                startActivity(websiteIntent);
-            }
-        });
+                    // 将字符串 URL 转换为 URI 对象（以传递至 Intent 中 constructor)
+                    Uri earthquakeUri = Uri.parse(earthquake.getUrl());
 
-        // 引用 LoaderManager，以便与 loader 进行交互。
-        LoaderManager loaderManager = getLoaderManager();
+                    // 创建一个新的 Intent 以查看地震 URI
+                    Intent websiteIntent = new Intent(Intent.ACTION_VIEW, earthquakeUri);
 
-        // 初始化 loader。传递上面定义的整数 ID 常量并为为捆绑
-        // 传递 null。为 LoaderCallbacks 参数（由于
-        // 此活动实现了 LoaderCallbacks 接口而有效）传递此活动(onCreateLoader)。
-        loaderManager.initLoader(EARTHQUAKE_LOADER_ID, null, this);
+                    // 发送 Intent 以启动新活动
+                    startActivity(websiteIntent);
+                }
+            });
+
+            // 引用 LoaderManager，以便与 loader 进行交互。
+            LoaderManager loaderManager = getLoaderManager();
+
+            // 初始化 loader。传递上面定义的整数 ID 常量并为为捆绑
+            // 传递 null。为 LoaderCallbacks 参数（由于
+            // 此活动实现了 LoaderCallbacks 接口而有效）传递此活动(onCreateLoader)。
+            loaderManager.initLoader(EARTHQUAKE_LOADER_ID, null, this);
+        } else {
+            // 不显示进度
+            progressBar.setVisibility(View.GONE);
+            // 设置为无连接显式empty view
+            emptyStateTextView.setText(R.string.no_internet_connection);
+        }
+
+
     }
 
     /**

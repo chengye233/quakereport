@@ -22,4 +22,7 @@
 
     <!-- 没有地震数据的空视图显式 -->
     <string name="no_earthquakes">No earthquakes found.</string>
+
+    <!-- 无网络连接时 -->
+    <string name="no_internet_connection">No Internet connection.</string>
 </resources>

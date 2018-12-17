@@ -39,11 +39,11 @@ public final class QueryUtils {
     public static List<Earthquake> fetchEarthquakeData(String requestUrl) {
 
         // 等待2s
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            Log.e(LOG_TAG, "fetchEarthquakeData等待2s", e);
-        }
+//        try {
+//            Thread.sleep(2000);
+//        } catch (InterruptedException e) {
+//            Log.e(LOG_TAG, "fetchEarthquakeData等待2s", e);
+//        }
 
         // 创建URL对象
         URL url = createUrl(requestUrl);
